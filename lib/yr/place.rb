@@ -30,11 +30,11 @@ module Yr
     def forecasts
       @forecasts ||= fetch_forecasts
     end
-    
+
     def details
       @details ||= fetch_details
     end
-    
+
     def to_s
       sted
     end
@@ -43,8 +43,8 @@ module Yr
       @details = []
       (xml_doc/"weatherdata/forecast/tabular/time").each do |t|
         d = Detail.new
-        d.from = Time.xmlschema((t["from"]))
-        d.to = Time.xmlschema((t["to"]))
+        d.from = Time.parse((t["from"]))
+        d.to = Time.parse((t["to"]))
         d.precipitation = t.at("precipitation").attributes["value"].to_f
         s = Symbol.new(t.at("symbol").attributes["number"].to_i, t.at("symbol").attributes["name"])
         d.symbol = s
@@ -68,18 +68,18 @@ module Yr
         f.title = (e/"title").inner_html
         f.body = (e/"body").inner_html
         f.from = (e["from"])
-        f.to = Time.xmlschema((e["to"]))
-        f.from = Time.xmlschema((e["from"]))
+        f.to = Time.parse((e["to"]))
+        f.from = Time.parse((e["from"]))
         f.place = self
         @forecasts << f
       end
       return @forecasts
     end
-    
+
     def xml_doc
       return @xml_doc unless @xml_doc.nil?
       xml = open(weather_url).read
-      @xml_doc = Hpricot(xml)      
+      @xml_doc = Hpricot(xml)
     end
   end
 end
