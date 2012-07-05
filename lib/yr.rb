@@ -13,6 +13,7 @@ require 'yr/detail'
 require 'yr/symbol'
 require 'yr/wind'
 require 'yr/location'
+require 'yr/sunrise'
 module Yr
-  
+
 end

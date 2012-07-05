@@ -28,7 +28,7 @@ module Yr
       time_hash = {}
       time_slots = @doc.search('product time')
       time_slots.each do |node|
-        hour = Time.at(Time.xmlschema(node[:from]) - Time.zone_offset("CET"))
+        hour = Time.at(Time.xmlschema(node[:from]) - (Time.zone_offset("CET") || 0))
         detail = time_hash[hour] ||= Detail.new
         detail.time_range = hour..hour # This should really be fixed. keeping it for backwards compatability
 
@@ -43,19 +43,21 @@ module Yr
         end
 
         if ws = node.at('windSpeed')
-         detail.wind ||= Wind.new
-         detail.wind.speed_name = ws[:name]
-         detail.wind.speed_mps = ws[:mps].to_f
+          detail.wind ||= Wind.new
+          detail.wind.speed_name = ws[:name]
+          detail.wind.speed_mps = ws[:mps].to_f
         end
 
         if temp = node.at('temperature')
-         detail.temperature = temp[:value].to_f
+          detail.temperature = temp[:value].to_f
         end
 
         if sym = node.at('symbol')
-         s = Symbol.new(sym[:number], sym[:id])
-         detail.symbol = s
+          s = Symbol.new(sym[:number], sym[:id])
+          detail.symbol = s
         end
+
+        detail.sunrise = Sunrise.new(@latitude, @longitude, hour.to_date)
       end
       time_hash
     end

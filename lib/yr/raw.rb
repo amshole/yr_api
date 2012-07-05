@@ -49,7 +49,7 @@ module Yr
     Icemap = Base.new(:icemap, 1.0)
     Locationforecast = Base.new(:locationforecast, 1.8)
     Mountaineasterobservations = Base.new(:mountaineasterobservations, 1.0)
-    OceanForecast = Base.new(:oceanforecast, 1.0)
+    OceanForecast = Base.new(:oceanforecast, 0.9)
     Polarsatellite = Base.new(:polarsatellite, 1.0)
     Radar = Base.new(:radar, 1.1)
     Refraction = Base.new(:refraction, 1.0)
