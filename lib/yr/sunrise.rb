@@ -1,30 +1,28 @@
 module Yr
   class Sunrise
     attr_reader :details, :doc
-    def initialize(lat, lng, date=Date.today)
+    def initialize(lat, lng, from=Date.today, to=Date.today)
       @latitude = lat
       @longitude = lng
-      @date = date
-    end
-
-    def details_hash
-      @details ||= parse_sunrise(doc)
+      @from = from
+      @to = to
     end
 
     def details
-      details_hash.values
+      @details ||= parse_sunrise(doc)
     end
 
     def doc
-      @doc ||= Raw::Sunrise.parse(:lat => @latitude, :lon => @longitude, :date => @date)
+      @doc ||= Raw::Sunrise.parse(:lat => @latitude, :lon => @longitude, :from => @from.to_date, :to => @to.to_date)
     end
 
     protected
 
     def parse_sunrise(doc)
-      sun = doc.search('sun').first
-      moon = doc.search('moon').first
-      {:sun => {:rise => Time.xmlschema(sun[:rise]), :set => Time.xmlschema(sun[:set]) }, :moon => {:rise => Time.xmlschema(moon[:rise]), :set => Time.xmlschema(moon[:set]) }}
+      doc.search('time').map do |t|
+        {:date => t[:date], :sun => {:rise => Time.xmlschema(t.search('sun').first[:rise]), :set => Time.xmlschema(t.search('sun').first[:set]) },
+          :moon => {:rise => Time.xmlschema(t.search('moon').first[:rise]), :set => Time.xmlschema(t.search('moon').first[:set]) }}
+      end
     end
   end
 end

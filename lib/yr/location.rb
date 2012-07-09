@@ -15,7 +15,7 @@ module Yr
     end
 
     def details
-      details_hash.values
+      details_hash.values.sort{|a,b| a.from <=> b.from }
     end
 
     def doc
@@ -37,9 +37,9 @@ module Yr
           @altitude = loc[:altitude] if(loc)
         end
 
-        if(wd = node.at("windDirection"))
+        if wd = node.at("windDirection")
           detail.wind ||= Wind.new
-          detail.wind.direction = wd[:def].to_f
+          detail.wind.direction = wd[:name]
         end
 
         if ws = node.at('windSpeed')
@@ -52,12 +52,16 @@ module Yr
           detail.temperature = temp[:value].to_f
         end
 
+        if pressure = node.at('pressure')
+          detail.pressure = pressure[:value].to_f
+        end
+
         if sym = node.at('symbol')
           s = Symbol.new(sym[:number], sym[:id])
           detail.symbol = s
         end
 
-        detail.sunrise = Sunrise.new(@latitude, @longitude, hour.to_date)
+        # detail.sunrise = Sunrise.new(@latitude, @longitude, hour.to_date, hour.to_date)
       end
       time_hash
     end

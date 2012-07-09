@@ -1,6 +1,6 @@
 module Yr
   class Detail
-    attr_accessor :symbol, :precipitation, :wind, :temperature, :from, :to, :sunrise
+    attr_accessor :symbol, :precipitation, :wind, :temperature, :pressure, :from, :to#, :sunrise
     def time_range
       from..to
     end
