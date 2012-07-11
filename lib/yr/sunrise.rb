@@ -1,7 +1,7 @@
 module Yr
   class Sunrise
     attr_reader :details, :doc
-    def initialize(lat, lng, from=Date.today, to=Date.today)
+    def initialize(lat, lng, from=Date.today, to=Date.today+10.days)
       @latitude = lat
       @longitude = lng
       @from = from
@@ -20,8 +20,8 @@ module Yr
 
     def parse_sunrise(doc)
       doc.search('time').map do |t|
-        {:date => t[:date], :sun => {:rise => Time.xmlschema(t.search('sun').first[:rise]), :set => Time.xmlschema(t.search('sun').first[:set]) },
-          :moon => {:rise => Time.xmlschema(t.search('moon').first[:rise]), :set => Time.xmlschema(t.search('moon').first[:set]) }}
+        {t[:date] => {:sun => {:rise => Time.xmlschema(t.search('sun').first[:rise]), :set => Time.xmlschema(t.search('sun').first[:set]) },
+          :moon => {:rise => Time.xmlschema(t.search('moon').first[:rise]), :set => Time.xmlschema(t.search('moon').first[:set]) }}}
       end
     end
   end

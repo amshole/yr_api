@@ -29,7 +29,7 @@ module Yr
       time_slots = @doc.search('product time')
       time_slots.each do |node|
         hour = Time.at(Time.xmlschema(node[:from]) - (Time.zone_offset("CET") || 0))
-        detail = time_hash[hour] ||= Detail.new
+        detail = Detail.new
         detail.time_range = hour..hour # This should really be fixed. keeping it for backwards compatability
 
         unless @altitude
@@ -60,6 +60,8 @@ module Yr
           s = Symbol.new(sym[:number], sym[:id])
           detail.symbol = s
         end
+
+        time_hash[hour] = detail if detail.temperature
 
         # detail.sunrise = Sunrise.new(@latitude, @longitude, hour.to_date, hour.to_date)
       end
