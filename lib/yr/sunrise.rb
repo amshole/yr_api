@@ -19,10 +19,12 @@ module Yr
     protected
 
     def parse_sunrise(doc)
-      doc.search('time').map do |t|
-        {t[:date] => {:sun => {:rise => Time.xmlschema(t.search('sun').first[:rise]), :set => Time.xmlschema(t.search('sun').first[:set]) },
-          :moon => {:rise => Time.xmlschema(t.search('moon').first[:rise]), :set => Time.xmlschema(t.search('moon').first[:set]) }}}
+      details_hash = {}
+      doc.search('time').each do |t|
+        details_hash[t[:date]] = {:sun => {:rise => Time.xmlschema(t.search('sun').first[:rise]), :set => Time.xmlschema(t.search('sun').first[:set]) },
+          :moon => {:rise => Time.xmlschema(t.search('moon').first[:rise]), :set => Time.xmlschema(t.search('moon').first[:set]) }}
       end
+      details_hash
     end
   end
 end
