@@ -27,7 +27,9 @@ module Yr
     def parse_time_slots(document)
       time_hash = {}
       time_slots = @doc.search('product time')
-      time_slots.each do |node|
+      time_slots.each_slice(5).each do |slice|
+        node = slice[0]
+        symbol_node = slice[1]
         hour = Time.at(Time.xmlschema(node[:from]) - (Time.zone_offset("CET") || 0))
         detail = Detail.new
         detail.time_range = hour..hour # This should really be fixed. keeping it for backwards compatability
@@ -56,9 +58,13 @@ module Yr
           detail.pressure = pressure[:value].to_f
         end
 
-        if sym = node.at('symbol')
+        if sym = symbol_node.at('symbol')
           s = Symbol.new(sym[:number], sym[:id])
           detail.symbol = s
+        end
+
+        if precipitation = symbol_node.at('precipitation')
+          detail.precipitation = "#{precipitation[:value]} #{precipitation[:unit]}"
         end
 
         time_hash[hour] = detail if detail.temperature

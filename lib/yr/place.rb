@@ -79,7 +79,7 @@ module Yr
     def xml_doc
       return @xml_doc unless @xml_doc.nil?
       xml = open(weather_url).read
-      @xml_doc = Hpricot(xml)
+      @xml_doc = Nokogiri::XML(xml)
     end
   end
 end
