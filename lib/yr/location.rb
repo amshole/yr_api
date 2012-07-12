@@ -27,11 +27,18 @@ module Yr
     def parse_time_slots(document)
       time_hash = {}
       time_slots = @doc.search('product time')
-      time_slots.each_slice(5).each do |slice|
-        node = slice[0]
-        symbol_node = slice[1]
+      time_slots.each_with_index do |node,index|
         hour = Time.at(Time.xmlschema(node[:from]) - (Time.zone_offset("CET") || 0))
-        detail = Detail.new
+
+        if temp = node.at('temperature')
+          detail = Detail.new
+          detail.temperature = temp[:value].to_f
+
+          symbol_node = time_slots[index+1]
+        else
+          next
+        end
+
         detail.time_range = hour..hour # This should really be fixed. keeping it for backwards compatability
 
         unless @altitude
@@ -48,10 +55,6 @@ module Yr
           detail.wind ||= Wind.new
           detail.wind.speed_name = ws[:name]
           detail.wind.speed_mps = ws[:mps].to_f
-        end
-
-        if temp = node.at('temperature')
-          detail.temperature = temp[:value].to_f
         end
 
         if pressure = node.at('pressure')

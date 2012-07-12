@@ -14,5 +14,10 @@ module Yr
       "Temperature #{temperature}"
     end
 
+    def to_json
+      {:time => @from.strftime("%H-%M"), :wind => @wind, :symbol => @symbol,
+        :precipitation => @precipitation, :pressure => @pressure, :temperature => @temperature}.to_json
+    end
+
   end
 end
