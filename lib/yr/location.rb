@@ -70,7 +70,7 @@ module Yr
           detail.precipitation = "#{precipitation[:value]} #{precipitation[:unit]}"
         end
 
-        time_hash[hour] = detail if detail.temperature
+        time_hash[hour] = detail if detail.temperature and (hour.to_date - Date.today) < 10 and [0, 6, 12, 18].include?(hour)
 
         # detail.sunrise = Sunrise.new(@latitude, @longitude, hour.to_date, hour.to_date)
       end
