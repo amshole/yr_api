@@ -1,13 +1,16 @@
 module Yr
   class Detail
-    attr_accessor :symbol, :precipitation, :wind, :temperature, :pressure, :from, :to#, :sunrise
+    attr_accessor :symbol, :precipitation, :wind, :temperature, :pressure, :time # :sunrise
+    attr_reader :from, :to
+
     def time_range
       from..to
     end
 
     def time_range=(a_range)
-      self.from   = a_range.begin
-      self.to     = a_range.end
+      @from = a_range.begin
+      @to = a_range.end
+      @time = @from.strftime("%H-%M")
     end
 
     def to_s
