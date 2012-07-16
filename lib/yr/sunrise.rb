@@ -21,8 +21,8 @@ module Yr
     def parse_sunrise(doc)
       details_hash = {}
       doc.search('time').each do |t|
-        details_hash[t[:date]] = {:sun => {:rise => Time.xmlschema(t.search('sun').first[:rise]), :set => Time.xmlschema(t.search('sun').first[:set]) },
-          :moon => {:rise => Time.xmlschema(t.search('moon').first[:rise]), :set => Time.xmlschema(t.search('moon').first[:set]) }}
+        details_hash[t[:date]] = {:sun => {:rise => Time.xmlschema(t.search('sun').first[:rise]).strftime("%H:%M"), :set => Time.xmlschema(t.search('sun').first[:set]).strftime("%H:%M") },
+          :moon => {:rise => Time.xmlschema(t.search('moon').first[:rise]).strftime("%H:%M"), :set => Time.xmlschema(t.search('moon').first[:set]).strftime("%H:%M") }}
       end
       details_hash
     end
