@@ -62,7 +62,7 @@ module Yr
         end
 
         if sym = symbol_node.at('symbol')
-          s = Symbol.new(sym[:number], sym[:id])
+          s = Symbol.new(sym[:number], sym[:id], ([0,18].include?(hour.hour) ? 1 : 0))
           detail.symbol = s
         end
 
