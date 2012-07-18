@@ -1,6 +1,7 @@
 module Yr
   class Sunrise
     attr_reader :details, :doc
+
     def initialize(lat, lng, from=Date.today, to=Date.today+10.days)
       @latitude = lat
       @longitude = lng

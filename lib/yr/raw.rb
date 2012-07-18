@@ -29,7 +29,7 @@ module Yr
 
       def parse(query_or_uri = {})
         res = fetch(query_or_uri)
-        if res["content-type"][0..7] == "text/xml"
+        if res["content-type"][0..7] == "text/xml" or res["content-type"][0..14] == "application/xml"
           Nokogiri::XML(res.body)
         else
           res.body

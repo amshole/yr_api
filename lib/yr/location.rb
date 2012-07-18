@@ -27,8 +27,12 @@ module Yr
     def parse_time_slots(document)
       time_hash = {}
       time_slots = @doc.search('product time')
+      ocean_forecast = OceanForecast.new(@latitude, @longitude).details
+      # puts y ocean_forecast
       time_slots.each_with_index do |node,index|
         hour = Time.at(Time.xmlschema(node[:from]) - (Time.zone_offset("CET") || 0))
+
+        next unless (hour.to_date - Date.today) < 10 and [0, 6, 12, 18].include?(hour.hour)
 
         if temp = node.at('temperature')
           detail = Detail.new
@@ -70,7 +74,11 @@ module Yr
           detail.precipitation = "#{precipitation[:value]} #{precipitation[:unit]}"
         end
 
-        time_hash[hour] = detail if detail.temperature and (hour.to_date - Date.today) < 10 and [0, 6, 12, 18].include?(hour.hour)
+        if sea_surface_height = ocean_forecast[hour]
+          detail.sea_surface_height = sea_surface_height
+        end
+
+        time_hash[hour] = detail if detail.temperature
 
         # detail.sunrise = Sunrise.new(@latitude, @longitude, hour.to_date, hour.to_date)
       end
