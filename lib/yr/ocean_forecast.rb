@@ -21,7 +21,7 @@ module Yr
 
       doc.xpath('//mox:Forecasts/mox:forecast/metno:OceanForecast').each do |forecast|
         time = Time.xmlschema(forecast.xpath('mox:validTime/gml:TimePeriod/gml:begin').first.try(:children).try(:first).try(:to_s))
-        ocean_forecast[time] = forecast.xpath('mox:seaSurfaceHeight').first.try(:children).try(:first).try(:to_s))
+        ocean_forecast[time] = forecast.xpath('mox:seaSurfaceHeight').first.try(:children).try(:first).try(:to_s)
       end
 
       ocean_forecast
