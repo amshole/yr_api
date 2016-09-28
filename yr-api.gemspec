@@ -2,15 +2,16 @@
 
 Gem::Specification.new do |s|
   s.name = %q{yr}
-  s.version = "0.0.4"
+  s.version = "0.0.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marius Mathiesen"]
-  s.date = %q{2010-12-16}
+  s.date = %q{2016-09-28}
   s.description = %q{Gem to access Norwegian weather API yr.no}
   s.email = %q{marius (at) shortcut.no}
+  s.add_runtime_dependency 'timezone', '~> 1.2'
   s.extra_rdoc_files = ["History.txt", "License.txt", "Manifest.txt", "README.txt", "config/places.txt"]
-  s.files = ["History.txt", "License.txt", "Manifest.txt", "README.txt", "lib/yr.rb", "lib/yr/version.rb", "lib/yr/detail.rb", "lib/yr/forecast.rb", "lib/yr/location.rb", "lib/yr/place.rb", "lib/yr/symbol.rb", "lib/yr/raw.rb", "lib/yr/wind.rb", "lib/yr/sunrise.rb", "log/debug.log", "config/places.txt", "config/places.yml", "tasks/yr.rake"]
+  s.files = ["History.txt", "License.txt", "Manifest.txt", "README.txt", "lib/yr.rb", "lib/yr/version.rb", "lib/yr/detail.rb", "lib/yr/forecast.rb", "lib/yr/location.rb", "lib/yr/place.rb", "lib/yr/symbol.rb", "lib/yr/raw.rb", "lib/yr/wind.rb", "lib/yr/sunrise.rb", "lib/yr/ocean_forecast.rb", "log/debug.log", "config/places.txt", "config/places.yml", "tasks/yr.rake"]
   s.homepage = %q{http://irbno.rubyforge.org}
   s.rdoc_options = ["--main", "README.txt"]
   s.require_paths = ["lib"]

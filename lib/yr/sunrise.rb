@@ -20,7 +20,7 @@ module Yr
     protected
 
     def parse_sunrise(doc)
-      Time.zone = Timezone::Zone.new(:latlon => [@latitude, @longitude]).zone
+      Time.zone = Timezone.lookup(@latitude, @longitude).name
 
       details_hash = {}
       doc.search('time').each do |t|
